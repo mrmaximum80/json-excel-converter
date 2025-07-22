@@ -1,0 +1,14 @@
+[
+  {
+    "code": "DIAMETR_HVOSTOVIKA_MM",
+    "name": "Диаметр хвостовика, мм"
+  },
+  {
+    "code": "OBOZNACHENIE",
+    "name": "Обозначение"
+  },
+  {
+    "code": "STRANA",
+    "name": "Страна"
+  }
+]

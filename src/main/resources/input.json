@@ -1,0 +1,146 @@
+[
+  {
+    "code": "DIAMETR_HVOSTOVIKA_MM",
+    "name": "Диаметр хвостовика, мм"
+  },
+  {
+    "code": "OBOZNACHENIE",
+    "name": "Обозначение"
+  },
+  {
+    "code": "STRANA",
+    "name": "Страна"
+  },
+  {
+    "code": "OBSHCHAYA_DLINA_L_MM",
+    "name": "Общая длина (L), мм"
+  },
+  {
+    "code": "TIP_OBRABATYVAEMOGO_OTVERSTIYA",
+    "name": "Тип обрабатываемого отверстия"
+  },
+  {
+    "code": "STANDART_REZBY",
+    "name": "Стандарт резьбы"
+  },
+  {
+    "code": "DLINA_RABOCHIE_CHASTI_MM",
+    "name": "Длина рабочей части, мм"
+  },
+  {
+    "code": "DIAMETR_SVERLA_MM",
+    "name": "Диаметр сверла, мм"
+  },
+  {
+    "code": "VID_INSTRUMENTA",
+    "name": "Вид инструмента"
+  },
+  {
+    "code": "RAZMER_REZBY_MM",
+    "name": "Размер резьбы, мм"
+  },
+  {
+    "code": "KOLICHESTVO_ZUBIEV_Z_SHT",
+    "name": "Количество зубьев (Z), шт"
+  },
+  {
+    "code": "SHAG_REZBY_P_MM",
+    "name": "Шаг резьбы (P), мм"
+  },
+  {
+    "code": "STANDART",
+    "name": "Стандарт"
+  },
+  {
+    "code": "MATERIAL",
+    "name": "Материал"
+  },
+  {
+    "code": "TORGOVAYA_MARKA",
+    "name": "Торговая марка"
+  },
+  {
+    "code": "RAZMER_SHAGA_REZBY",
+    "name": "Размер шага резьбы"
+  },
+  {
+    "code": "TIP",
+    "name": "Тип"
+  },
+  {
+    "code": "DIAMETR_SHEYKI_MM",
+    "name": "Диаметр шейки, мм"
+  },
+  {
+    "code": "KVALITET",
+    "name": "Квалитет"
+  },
+  {
+    "code": "NAPRAVLENIE",
+    "name": "Направление"
+  },
+  {
+    "code": "DIAMETR_HVOSTOVIKA_MM",
+    "name": "Диаметр хвостовика, мм"
+  },
+  {
+    "code": "OBOZNACHENIE_PO_GOST",
+    "name": "Обозначение по ГОСТ"
+  },
+  {
+    "code": "DIAMETR_D_MM",
+    "name": "Диаметр (D), мм"
+  },
+  {
+    "code": "STRANA",
+    "name": "Страна"
+  },
+  {
+    "code": "OBSHCHAYA_DLINA_L_MM",
+    "name": "Общая длина (L), мм"
+  },
+  {
+    "code": "KLASS_TOCHNOSTI",
+    "name": "Класс точности"
+  },
+  {
+    "code": "DLINA_RABOCHIE_CHASTI_MM",
+    "name": "Длина рабочей части, мм"
+  },
+  {
+    "code": "VID_INSTRUMENTA",
+    "name": "Вид инструмента"
+  },
+  {
+    "code": "HVOSTOVIK",
+    "name": "Хвостовик"
+  },
+  {
+    "code": "SOTNOSHENIE_L_D",
+    "name": "Соотношение L/D"
+  },
+  {
+    "code": "SERIYA",
+    "name": "Серия"
+  },
+  {
+    "code": "STANDART",
+    "name": "Стандарт"
+  },
+  {
+    "code": "MATERIAL",
+    "name": "Материал"
+  },
+  {
+    "code": "TORGOVAYA_MARKA",
+    "name": "Торговая марка"
+  },
+  {
+    "code": "UGOL_PRI_VERSHINE_GRAD",
+    "name": "Угол при вершине, град."
+  },
+  {
+    "code": "NAPRAVLENIE",
+    "name": "Направление"
+  }
+]
