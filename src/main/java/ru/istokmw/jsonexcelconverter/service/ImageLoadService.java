@@ -1,21 +1,26 @@
 package ru.istokmw.jsonexcelconverter.service;
 
-import org.springframework.stereotype.Component;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.buffer.DataBufferLimitException;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.nio.file.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@Component
+@Service
+@RequiredArgsConstructor
+@Slf4j
 public class ImageLoadService {
 
     private final Pattern URL_PATTERN = Pattern.compile(
@@ -23,28 +28,26 @@ public class ImageLoadService {
             Pattern.CASE_INSENSITIVE
     );
 
-    public byte[] downloadImage(String imageUrl) throws IOException {
+    private final WebClient webClient;
 
+    public byte[] downloadImage(String imageUrl) throws IOException {
         if (imageUrl == null || imageUrl.trim().isEmpty()) {
             throw new IllegalArgumentException("Image URL cannot be null or empty");
         }
 
-        URL url;
         try {
-            url = new URL(imageUrl);
-        } catch (MalformedURLException e) {
-            throw new IllegalArgumentException("Invalid image URL: " + imageUrl, e);
-        }
-
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setConnectTimeout(5000); // 5 seconds
-        connection.setReadTimeout(10000);   // 10 seconds
-
-        // Скачиваем файл
-        try (InputStream in = connection.getInputStream()) {
-            return in.readAllBytes();
-        } catch (IOException e) {
-            throw new IOException(e.getMessage());
+            return webClient.get()
+                    .uri(imageUrl)
+                    .retrieve()
+                    .onStatus(HttpStatusCode::isError, response ->
+                            Mono.error(new IOException("HTTP error: " + response.statusCode().value())))
+                    .bodyToMono(byte[].class)
+                    .block();
+        } catch (RuntimeException  e) {
+            if (e.getCause() instanceof DataBufferLimitException) {
+                throw new IOException("Файл слишком большой. Увеличьте maxInMemorySize в WebClient", e.getCause());
+            }
+            throw new IOException("Ошибка загрузки изображения", e);
         }
     }
 
