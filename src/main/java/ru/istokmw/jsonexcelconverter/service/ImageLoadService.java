@@ -3,7 +3,9 @@ package ru.istokmw.jsonexcelconverter.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.buffer.DataBufferLimitException;
-import org.springframework.http.HttpStatusCode;
+import org.springframework.data.util.Pair;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -30,7 +32,7 @@ public class ImageLoadService {
 
     private final WebClient webClient;
 
-    public byte[] downloadImage(String imageUrl) throws IOException {
+    public Pair<MediaType, byte[]>  downloadImage(String imageUrl) throws IOException {
         if (imageUrl == null || imageUrl.trim().isEmpty()) {
             throw new IllegalArgumentException("Image URL cannot be null or empty");
         }
@@ -38,10 +40,25 @@ public class ImageLoadService {
         try {
             return webClient.get()
                     .uri(imageUrl)
-                    .retrieve()
-                    .onStatus(HttpStatusCode::isError, response ->
-                            Mono.error(new IOException("HTTP error: " + response.statusCode().value())))
-                    .bodyToMono(byte[].class)
+                    .exchangeToMono(response -> {
+                        // Проверяем статус ответа
+                        if (response.statusCode().isError()) {
+                            return Mono.error(new IOException("HTTP error: " + response.statusCode().value()));
+                        }
+
+                        // Получаем заголовки и извлекаем MediaType
+                        HttpHeaders headers = response.headers().asHttpHeaders();
+                        MediaType mediaType = headers.getContentType();
+
+                        // Можно добавить проверку на ожидаемый тип (например, image/jpeg)
+                        if (mediaType == null) {
+                            return Mono.error(new IOException("HTTP error: Content-Type header is missing" ));
+                        }
+
+                        // Возвращаем тело ответа в виде byte[]
+                        return response.bodyToMono(byte[].class)
+                                .map(image -> Pair.of(mediaType, image));
+                    })
                     .block();
         } catch (RuntimeException  e) {
             if (e.getCause() instanceof DataBufferLimitException) {
@@ -72,7 +89,4 @@ public class ImageLoadService {
         return urls;
     }
 
-    public String getImageType(String url) {
-        return url.substring(url.lastIndexOf('.') + 1).toLowerCase();
-    }
 }

@@ -1,5 +1,6 @@
 package ru.istokmw.jsonexcelconverter.storage;
 
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedHashMap;
@@ -10,7 +11,7 @@ public class MockMinioAdapter implements MinioAdapter {
     private final Map<String, byte[]> storage = new LinkedHashMap<>();
 
     @Override
-    public void uploadImage(String objectName, byte[] data, String contentType) {
+    public void uploadImage(String objectName, byte[] data, MediaType contentType) {
         storage.put(objectName, data);
     }
 

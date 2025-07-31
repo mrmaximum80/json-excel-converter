@@ -5,7 +5,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import ru.istokmw.jsonexcelconverter.converter.JsonToExcelConverter;
+import ru.istokmw.jsonexcelconverter.converter.ExcelTemplateGenerator;
 import ru.istokmw.jsonexcelconverter.model.Item;
 import ru.istokmw.jsonexcelconverter.service.ExcelParserService;
 import ru.istokmw.jsonexcelconverter.service.ImageLoadService;
@@ -23,7 +23,7 @@ import java.util.Map;
 class JsonExcelConverterApplicationTests {
 
     @Autowired
-    private JsonToExcelConverter converter;
+    private ExcelTemplateGenerator generator;
 
     @Autowired
     private ExcelParserService excelParserService;
@@ -41,7 +41,7 @@ class JsonExcelConverterApplicationTests {
     void jsonToExcelConverterTest() throws IOException {
         String jsonData = Files.readString(Paths.get("src\\main\\resources\\input2.json"));
 
-        Workbook workbook = converter.convertJsonToExcel(jsonData);
+        Workbook workbook = generator.generateExcelTemplate(jsonData);
         FileOutputStream fos = new FileOutputStream("src\\main\\resources\\output.xlsx");
 
         // Сохранить файл

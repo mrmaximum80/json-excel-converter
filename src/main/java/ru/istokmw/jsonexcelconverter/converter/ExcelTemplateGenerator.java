@@ -1,15 +1,11 @@
 package ru.istokmw.jsonexcelconverter.converter;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.openxmlformats.schemas.spreadsheetml.x2006.main.CTSheetProtection;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import ru.istokmw.jsonexcelconverter.model.ItemEnum;
@@ -17,7 +13,6 @@ import ru.istokmw.jsonexcelconverter.model.Parameter;
 import ru.istokmw.jsonexcelconverter.service.JsonParserService;
 import ru.istokmw.jsonexcelconverter.style.ExcelStyleFactory;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static ru.istokmw.jsonexcelconverter.constants.ExcelConstants.COLUMN_WIDTH_MULTIPLIER;
@@ -27,7 +22,7 @@ import static ru.istokmw.jsonexcelconverter.constants.ExcelConstants.MAX_ROWS;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class JsonToExcelConverter {
+public class ExcelTemplateGenerator {
 
     @Value("${excel.sheet.password}")
     private String excelPassword;
@@ -41,7 +36,7 @@ public class JsonToExcelConverter {
     private final JsonParserService jsonParser;
 
 
-    public Workbook convertJsonToExcel(String jsonData) {
+    public Workbook generateExcelTemplate(String jsonData) {
 
         List<Parameter> parameters = jsonParser.parseJson(jsonData);
         log.debug("Parsed {} parameters", parameters.size());

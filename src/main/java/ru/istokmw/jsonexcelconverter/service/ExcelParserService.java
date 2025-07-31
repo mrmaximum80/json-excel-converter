@@ -6,6 +6,8 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.util.Pair;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import ru.istokmw.jsonexcelconverter.model.Item;
 import ru.istokmw.jsonexcelconverter.model.Parameter;
@@ -102,19 +104,18 @@ public class ExcelParserService {
         for (int i = 0; i < urls.size(); i++) {
             try {
                 String imageUrl = urls.get(i);
-                byte[] imageData = imageLoadService.downloadImage(imageUrl);
-                String imageType = imageLoadService.getImageType(imageUrl);
+                Pair<MediaType, byte[]> imageData = imageLoadService.downloadImage(imageUrl);
                 String imageName = item.getItemNumber() + "_image_" + i;
 
                 String minioUrl = minioImageService.uploadImageToMinio(
-                        imageData,
+                        imageData.getSecond(),
                         imageName,
-                        imageType
+                        imageData.getFirst()
                 );
                 photos.add(new Photo(
                         item.getItemNumber(),
                         imageName,
-                        imageType,
+                        imageData.getFirst(),
                         imageUrl,
                         minioUrl
                 ));
